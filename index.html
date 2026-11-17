@@ -35,6 +35,9 @@ h3{margin:0;font-size:20px;font-weight:650;line-height:1.4;letter-spacing:.01em}
 .empty{text-align:center;color:var(--mu);padding:80px 0;font-size:17px}
 .fabs{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
 .fabs .btn{padding:13px 22px;box-shadow:0 10px 30px rgba(60,40,20,.25)}
+.btn.ask{background:transparent;color:#a8845f;border:1.5px solid #a8845f}
+.btn.ask:hover{background:rgba(168,132,95,.1);opacity:1}
+@media (prefers-color-scheme:dark){.btn.ask{color:#d1b08a;border-color:#d1b08a}}
 .btn.gold{background:#cdb08a;color:#3f2f22}
 @media (prefers-color-scheme:dark){.btn.gold{background:#b99870;color:#1b1713}}
 .cta .btn,.fabs .btn{border-radius:28px;min-height:60px;padding:10px 22px;text-align:center;line-height:1.45;white-space:pre-line}
@@ -48,7 +51,7 @@ h3{margin:0;font-size:20px;font-weight:650;line-height:1.4;letter-spacing:.01em}
 .tab.on{background:var(--ac);color:#fff}
 .new{position:absolute;top:14px;right:14px;background:var(--ac);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:99px}
 .sec{margin:34px 0 18px;font-size:22px;font-weight:700;letter-spacing:.02em}
-header.hero{position:relative;overflow:hidden;border-radius:30px;margin-top:8px;padding:72px 20px 150px;background:linear-gradient(180deg,#e9f1f4 0%,#f6efe4 62%,#f1e4cf 100%)}
+header.hero{position:relative;overflow:hidden;border-radius:30px;margin-top:8px;padding:72px 20px 180px;background:linear-gradient(180deg,#e9f1f4 0%,#f6efe4 62%,#f1e4cf 100%)}
 header.hero>*{position:relative;z-index:2}
 header.hero .art{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .art svg{display:block}
@@ -57,9 +60,9 @@ header.hero .art{position:absolute;inset:0;z-index:1;pointer-events:none;overflo
 .cloud.c1{top:16%;width:110px;animation:drift 38s linear infinite}
 .cloud.c2{top:44%;width:80px;opacity:.7;animation:drift 52s linear infinite -20s}
 .cloud.c3{top:28%;width:64px;opacity:.6;animation:drift 66s linear infinite -40s}
-.plane{position:absolute;top:20%;left:-20%;width:104px;overflow:visible;animation:fly 15s linear infinite}
+.plane{--ps:125px;--pe:75px;position:absolute;bottom:var(--ps);left:-20%;width:104px;overflow:visible;transform-origin:100% 50%;animation:fly 9s linear infinite}
 .plane svg{overflow:visible;animation:bob 3s ease-in-out infinite}
-.globe{position:absolute;right:6%;bottom:42px;width:104px;height:104px;animation:float 6s ease-in-out infinite}
+.globe{position:absolute;right:6%;bottom:46px;width:104px;height:104px;animation:float 6s ease-in-out infinite}
 .land{animation:spin 18s linear infinite}
 .beach{margin-top:56px;position:relative;line-height:0}
 .beach svg{width:100%;height:auto;display:block}
@@ -75,7 +78,7 @@ header.hero .art{position:absolute;inset:0;z-index:1;pointer-events:none;overflo
 .copy{text-align:center;color:var(--mu);font-size:12px;margin-top:20px;letter-spacing:.08em}
 .card{opacity:0;transform:translateY(26px)}
 .card.in{opacity:1;transform:none}.card.in:hover{transform:translateY(-4px)}
-@keyframes fly{0%{left:-22%;transform:translateY(24px) rotate(-5deg)}50%{transform:translateY(-6px) rotate(0)}100%{left:108%;transform:translateY(18px) rotate(-4deg)}}
+@keyframes fly{0%{left:-20%;bottom:var(--ps);opacity:0;transform:rotate(-3deg) scale(1)}10%{opacity:1}80%{opacity:1;transform:rotate(3deg) scale(1)}100%{left:calc(94% - 150px);bottom:var(--pe);opacity:0;transform:rotate(7deg) scale(.4)}}
 @keyframes bob{50%{transform:translateY(-5px)}}
 @keyframes drift{from{left:-25%}to{left:110%}}
 @keyframes spin{to{transform:translateX(-120px)}}
@@ -83,7 +86,7 @@ header.hero .art{position:absolute;inset:0;z-index:1;pointer-events:none;overflo
 @keyframes pulse{50%{transform:scale(1.07)}}
 @keyframes sway{50%{transform:rotate(3deg)}}
 @keyframes wave{50%{transform:translateX(-30px)}}
-@media (max-width:560px){header.hero{padding:64px 16px 130px}.globe{width:76px;height:76px;right:5%;bottom:36px}.sun{width:48px;height:48px}.plane{width:78px}}
+@media (max-width:560px){header.hero{padding:64px 16px 160px}.globe{width:76px;height:76px;right:5%;bottom:40px}.sun{width:48px;height:48px}.plane{width:78px;--ps:112px;--pe:62px}}
 @media (max-width:640px){
 .tabs{position:relative;margin:0 -20px;padding-left:12px;padding-right:12px}
 .tabs .in{flex-wrap:wrap;overflow:visible;width:auto;max-width:100%;justify-content:center;gap:4px;padding:6px;border-radius:24px}
@@ -101,7 +104,7 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){retur
 var line=/^https?:\/\//i.test(st.lineUrl||'')?st.lineUrl:'';
 var cu=/^https?:\/\//i.test(st.communityUrl||'')?st.communityUrl:'';
 var cbtn=cu?'<a class="btn gold" href="'+esc(cu)+'" target="_blank" rel="noopener noreferrer">'+esc(st.communityLabel||'✈️出國優惠行程社群✈️\n入群密碼8888')+'</a>':'';
-var lb=line?'<a class="btn" href="'+esc(line)+'" target="_blank" rel="noopener noreferrer">💬 LINE 詢問此行程</a>':'';
+var lb=line?'<a class="btn ask" href="'+esc(line)+'" target="_blank" rel="noopener noreferrer">詢問詳細行程</a>':'';
 var h='<header class="hero"><div class="art"><div class="sun"></div><svg class="cloud c1" viewBox="0 0 100 50"><circle cx="30" cy="30" r="16"/><circle cx="52" cy="22" r="20"/><circle cx="74" cy="32" r="14"/><rect x="14" y="30" width="72" height="16" rx="8"/></svg><svg class="cloud c2" viewBox="0 0 100 50"><circle cx="30" cy="30" r="16"/><circle cx="52" cy="22" r="20"/><circle cx="74" cy="32" r="14"/><rect x="14" y="30" width="72" height="16" rx="8"/></svg><svg class="cloud c3" viewBox="0 0 100 50"><circle cx="30" cy="30" r="16"/><circle cx="52" cy="22" r="20"/><circle cx="74" cy="32" r="14"/><rect x="14" y="30" width="72" height="16" rx="8"/></svg><div class="plane"><svg viewBox="0 0 120 48"><line x1="-90" y1="27" x2="2" y2="27" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 9" opacity=".95"/><path d="M4 26L40 21 74 6 86 6 70 21 102 19C112 19 118 23 118 26 118 29 112 33 102 33L70 33 86 46 74 46 40 31 12 30Z" fill="#fffdfa" stroke="#b08d57" stroke-width="2.4" stroke-linejoin="round"/><circle cx="96" cy="25" r="2" fill="#b08d57"/><circle cx="88" cy="25" r="2" fill="#b08d57"/><circle cx="80" cy="25" r="2" fill="#b08d57"/></svg></div><div class="globe"><svg viewBox="0 0 120 120"><defs><clipPath id="gc"><circle cx="60" cy="60" r="54"/></clipPath><radialGradient id="gb" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#bcd9e6"/><stop offset="1" stop-color="#6fa3bb"/></radialGradient><radialGradient id="gs" cx="35%" cy="30%" r="75%"><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#1e3a4a" stop-opacity=".35"/></radialGradient></defs><circle cx="60" cy="60" r="54" fill="url(#gb)"/><g clip-path="url(#gc)"><g class="land" fill="#fffdfa" opacity=".92"><g><path d="M10 40c8-10 20-12 28-6 6 5 2 12-6 14-8 2-8 10-18 8-8-2-12-8-4-16zM48 22c6-8 18-6 22 2 3 6-4 10-8 16-4 6-6 18-12 14-6-4-2-14-4-20-1-4-1-8 2-12zM76 62c6-4 14 0 14 8 0 7-8 14-14 10-6-4-6-14 0-18zM96 30c6-6 14-4 14 4 0 6-6 8-12 8-6 0-6-6-2-12z"/></g><g transform="translate(120 0)"><path d="M10 40c8-10 20-12 28-6 6 5 2 12-6 14-8 2-8 10-18 8-8-2-12-8-4-16zM48 22c6-8 18-6 22 2 3 6-4 10-8 16-4 6-6 18-12 14-6-4-2-14-4-20-1-4-1-8 2-12zM76 62c6-4 14 0 14 8 0 7-8 14-14 10-6-4-6-14 0-18zM96 30c6-6 14-4 14 4 0 6-6 8-12 8-6 0-6-6-2-12z"/></g></g></g><circle cx="60" cy="60" r="54" fill="url(#gs)"/><circle cx="60" cy="60" r="54" fill="none" stroke="#b08d57" stroke-width="2"/></svg></div></div><h1>'+esc(st.brand)+'</h1><p>'+esc(st.intro)+'</p></header>';
 function col(t,x){return x&&String(x).trim()?'<div class="col"><h4>'+t+'</h4><div class="info">'+esc(x)+'</div></div>':''}
 var CATS=[['new','最新優惠訊息'],['all','全部'],['jp','日本'],['kr','韓國'],['sea','新馬泰'],['vn','越南'],['eu','歐洲'],['cruise','郵輪']];
@@ -124,6 +127,8 @@ function draw(cat){
 }
 document.querySelectorAll('.tab').forEach(function(t){t.onclick=function(){history.replaceState(null,'','#'+t.dataset.c);draw(t.dataset.c)}});
 window.addEventListener('hashchange',function(){draw(location.hash.slice(1))});
+function fitTitle(){var t=document.querySelector('header.hero h1');if(!t)return;t.style.fontSize='';t.style.whiteSpace='';if(window.innerWidth>640)return;t.style.whiteSpace='nowrap';var p=t.parentNode,cs=getComputedStyle(p),av=p.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),fs=parseFloat(getComputedStyle(t).fontSize);while(t.scrollWidth>av&&fs>12){fs-=1;t.style.fontSize=fs+'px'}}
+fitTitle();window.addEventListener('resize',fitTitle);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitTitle);
 draw(location.hash.slice(1));
 </script>
 </body>
