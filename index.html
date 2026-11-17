@@ -91,7 +91,32 @@ header.hero .art{position:absolute;inset:0;z-index:1;pointer-events:none;overflo
 .tabs{position:relative;margin:0 -20px;padding-left:12px;padding-right:12px}
 .tabs .in{flex-wrap:wrap;overflow:visible;width:auto;max-width:100%;justify-content:center;gap:4px;padding:6px;border-radius:24px}
 .tab{padding:8px 13px;font-size:14px}
+.grid{grid-template-columns:1fr;gap:12px}
+.card{flex-direction:row;align-items:stretch;border-radius:16px;cursor:pointer}
+.card:hover{transform:none}
+.card .im{width:112px;flex:none;aspect-ratio:auto;min-height:144px}
+.card:hover .im img{transform:none}
+.card .bd{padding:12px 14px;gap:4px;justify-content:center;min-width:0}
+.card h3{font-size:16px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card .sub{font-size:12.5px}
+.card .price{font-size:20px;margin-top:0}
+.card .desc,.card .bd>.btn{display:none}
+.card .more{display:block;font-size:13px;color:#a8845f;margin-top:2px}
+.tag{top:6px;left:6px;font-size:11px;padding:2px 8px}
+.new{top:auto;bottom:6px;left:6px;right:auto;font-size:10px;padding:2px 8px}
 }
+.more{display:none}
+.dt{position:fixed;inset:0;z-index:60;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(36px + env(safe-area-inset-bottom,0px))}
+.dtb{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(8px + env(safe-area-inset-top,0px)) 8px 8px;background:color-mix(in srgb,var(--bg) 86%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);font-weight:600}
+.dtb i{width:70px}
+.dback{border:0;background:transparent;color:#a8845f;font:inherit;font-size:17px;font-weight:600;padding:8px 10px;cursor:pointer;width:70px;text-align:left}
+.dtc>img{width:100%;display:block}
+.dtx{padding:18px 18px 8px}
+.dtx h2{margin:0 0 6px;font-size:21px;line-height:1.4}
+.dtx .dh{margin:18px 0 6px;font-size:14px;font-weight:700;letter-spacing:.08em;color:#a8845f}
+.dtx .desc{display:block;color:var(--tx);font-size:15.5px;line-height:1.85;margin:0 0 20px}
+.dtx .btn{width:100%}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important}.card{opacity:1;transform:none}}
 </style>
 </head>
@@ -110,11 +135,23 @@ function col(t,x){return x&&String(x).trim()?'<div class="col"><h4>'+t+'</h4><di
 var CATS=[['new','最新優惠訊息'],['all','全部'],['jp','日本'],['kr','韓國'],['sea','新馬泰'],['vn','越南'],['eu','歐洲'],['cruise','郵輪']];
 function cardHtml(it,i){
  var meta=[it.dest,it.days?it.days+' 天':'',it.dates].filter(Boolean).map(esc).join('｜');
- return '<article class="card"><div class="im" data-i="'+i+'">'+(it.img?'<img src="'+it.img+'" alt="'+esc(it.title)+'">':'')+(it.tag?'<span class="tag">'+esc(it.tag)+'</span>':'')+(it.hot?'<span class="new">NEW</span>':'')+'</div><div class="bd"><h3>'+esc(it.title)+'</h3>'+(meta?'<div class="sub">'+meta+'</div>':'')+(it.price?'<div class="price">NT$ '+esc(it.price)+' <small>起</small></div>':'')+(it.desc?'<div class="desc">'+esc(it.desc)+'</div>':'')+lb+'</div></article>'}
+ return '<article class="card"><div class="im" data-i="'+i+'">'+(it.img?'<img src="'+it.img+'" alt="'+esc(it.title)+'">':'')+(it.tag?'<span class="tag">'+esc(it.tag)+'</span>':'')+(it.hot?'<span class="new">NEW</span>':'')+'</div><div class="bd"><h3>'+esc(it.title)+'</h3>'+(meta?'<div class="sub">'+meta+'</div>':'')+(it.price?'<div class="price">NT$ '+esc(it.price)+' <small>起</small></div>':'')+(it.desc?'<div class="desc">'+esc(it.desc)+'</div>':'')+'<div class="more">查看詳情 ›</div>'+lb+'</div></article>'}
 h='<nav class="tabs"><div class="in">'+CATS.map(function(c){return '<button class="tab" data-c="'+c[0]+'">'+c[1]+'</button>'}).join('')+'</div></nav>'+h+'<div id="grid"></div>';
 var lbtn=line?'<a class="btn" href="'+esc(line)+'" target="_blank" rel="noopener noreferrer">'+esc(st.lineLabel||'LINE 詢問行程✉️')+'</a>':'';
 if(line||cu)h+='<div class="fabs">'+lbtn+cbtn+'</div>';
 h+='<div class="beach"><svg viewBox="0 0 600 190" preserveAspectRatio="xMidYMax slice"><path class="wave2" d="M-60 120Q-10 100 40 120T140 120 240 120 340 120 440 120 540 120 640 120V190H-60Z" fill="#cfe0e6" opacity=".7"/><path class="wave1" d="M-60 138Q-10 120 40 138T140 138 240 138 340 138 440 138 540 138 640 138V190H-60Z" fill="#e8dcc6"/><path d="M0 160Q150 130 300 150T600 140V190H0Z" fill="#f1e4cf"/><g class="palm"><path d="M150 150C152 120 148 95 158 62" stroke="#a67c3d" stroke-width="7" fill="none" stroke-linecap="round"/><g fill="#9bb59a"><ellipse cx="136" cy="62" rx="30" ry="9" transform="rotate(-25 136 62)"/><ellipse cx="182" cy="60" rx="30" ry="9" transform="rotate(25 182 60)"/><ellipse cx="144" cy="46" rx="26" ry="8" transform="rotate(-65 144 46)"/><ellipse cx="172" cy="46" rx="26" ry="8" transform="rotate(65 172 46)"/><ellipse cx="159" cy="40" rx="8" ry="24"/></g></g><g transform="translate(430 112)"><path d="M0 28H70L60 42H10Z" fill="#a67c3d"/><path d="M34 0V28" stroke="#a67c3d" stroke-width="3"/><path d="M38 4L68 24H38Z" fill="#fffdfa"/><path d="M30 8L6 24H30Z" fill="#e8dcc6"/></g></svg></div><div class="company"><div class="cols">'+col('公司資訊',st.company)+col('付款方式',st.payment)+'</div>'+(line||cu?'<div class="cta">'+lbtn+cbtn+'</div>':'')+'</div><div class="copy">© '+new Date().getFullYear()+' '+esc(st.brand)+'</div>';document.getElementById('app').innerHTML=h;var io=new IntersectionObserver(function(es){es.forEach(function(e,i){if(e.isIntersecting){var el=e.target;setTimeout(function(){el.classList.add('in')},(i%3)*90);io.unobserve(el)}})},{threshold:.08});
+var dtEl=null;
+function closeDt(){if(dtEl){dtEl.remove();dtEl=null;document.body.style.overflow=''}}
+function openDetail(i){
+ var it=S.items[i];if(!it)return;closeDt();
+ var meta=[it.dest,it.days?it.days+' 天':'',it.dates].filter(Boolean).map(esc).join('｜');
+ var d=document.createElement('div');d.className='dt';
+ d.innerHTML='<div class="dtb"><button class="dback">‹ 返回</button><span>行程詳情</span><i></i></div><div class="dtc">'+(it.img?'<img src="'+it.img+'" alt="'+esc(it.title)+'">':'')+'<div class="dtx"><h2>'+esc(it.title)+'</h2>'+(meta?'<div class="sub">'+meta+'</div>':'')+(it.price?'<div class="price">NT$ '+esc(it.price)+' <small>起</small></div>':'')+(it.desc?'<div class="dh">行程重點</div><div class="desc">'+esc(it.desc)+'</div>':'')+lbtn+'</div></div>';
+ document.body.appendChild(d);dtEl=d;document.body.style.overflow='hidden';d.scrollTop=0;
+ history.pushState({dt:1},'',location.href);
+ d.querySelector('.dback').onclick=function(){if(history.state&&history.state.dt)history.back();else closeDt()};
+}
+window.addEventListener('popstate',closeDt);
 function draw(cat){
  if(!CATS.some(function(c){return c[0]===cat}))cat=S.items.some(function(x){return x.hot})?'new':'all';
  var name=CATS.filter(function(c){return c[0]===cat})[0][1];
@@ -122,8 +159,8 @@ function draw(cat){
  var list=[];S.items.forEach(function(it,i){if(cat==='all'||(cat==='new'?it.hot:it.cat===cat))list.push(cardHtml(it,i))});
  var g=document.getElementById('grid');
  g.innerHTML=(cat==='all'?'':'<h2 class="sec">'+(cat==='new'?name:name+'行程')+'</h2>')+(list.length?'<div class="grid">'+list.join('')+'</div>':'<div class="empty">'+(cat==='all'?'敬請期待最新行程':cat==='new'?'目前沒有最新優惠訊息，歡迎 LINE 詢問':name+'行程敬請期待，歡迎 LINE 詢問')+'</div>');
- g.querySelectorAll('.card').forEach(function(x){io.observe(x)});
- g.querySelectorAll('.im').forEach(function(e){e.onclick=function(){var it=S.items[+e.dataset.i];if(!it||!it.img)return;var d=document.createElement('div');d.className='lb';d.innerHTML='<img src="'+it.img+'">';d.onclick=function(){d.remove()};document.body.appendChild(d)}});
+ g.querySelectorAll('.card').forEach(function(x){io.observe(x);x.onclick=function(ev){if(window.innerWidth>640||ev.target.closest('a'))return;openDetail(+x.querySelector('.im').dataset.i)}});
+ g.querySelectorAll('.im').forEach(function(e){e.onclick=function(){if(window.innerWidth<=640)return;var it=S.items[+e.dataset.i];if(!it||!it.img)return;var d=document.createElement('div');d.className='lb';d.innerHTML='<img src="'+it.img+'">';d.onclick=function(){d.remove()};document.body.appendChild(d)}});
 }
 document.querySelectorAll('.tab').forEach(function(t){t.onclick=function(){history.replaceState(null,'','#'+t.dataset.c);draw(t.dataset.c)}});
 window.addEventListener('hashchange',function(){draw(location.hash.slice(1))});
